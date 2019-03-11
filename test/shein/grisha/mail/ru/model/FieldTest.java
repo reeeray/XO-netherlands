@@ -1,6 +1,7 @@
 package shein.grisha.mail.ru.model;
 
 import org.junit.Test;
+import shein.grisha.mail.ru.model.exceptions.AlreadyOccupiedException;
 import shein.grisha.mail.ru.model.exceptions.InvalidPointException;
 
 import java.awt.*;
@@ -27,6 +28,19 @@ public class FieldTest {
         final Figure actualFigure = field.getFigure(inputPoint);
 
         assertEquals(expectedFigure, actualFigure);
+    }
+
+    @Test
+    public void testSetFigureWhenAlreadyOccupied() throws Exception{
+        final Field field = new Field();
+        final Point inputPoint = new Point(0, 0);
+        final Figure inputFigure = Figure.O;
+
+        field.setFigure(inputPoint, inputFigure);
+        try {
+            field.setFigure(inputPoint, inputFigure);
+            fail(); //Will fail test if become to this point
+        }catch (AlreadyOccupiedException e) {}
     }
 
     @Test
