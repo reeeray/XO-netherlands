@@ -1,6 +1,7 @@
 package shein.grisha.mail.ru.model;
 
 import org.junit.Test;
+import shein.grisha.mail.ru.model.exceptions.InvalidPointException;
 
 import java.awt.*;
 
@@ -16,9 +17,9 @@ public class FieldTest {
     }
 
     @Test
-    public void setFigure() {
+    public void testSetFigure() throws Exception{
         final Field field = new Field();
-        final Point inputPoint = new Point(0,0);
+        final Point inputPoint = new Point(0, 0);
         final Figure inputFigure = Figure.O;
         final Figure expectedFigure = inputFigure;
 
@@ -26,6 +27,59 @@ public class FieldTest {
         final Figure actualFigure = field.getFigure(inputPoint);
 
         assertEquals(expectedFigure, actualFigure);
+    }
 
+    @Test
+    public void testGetFigureWhenFigureIsNotSet() throws Exception{
+        final Field field = new Field();
+        final Point inputPoint = new Point(0, 0);
+
+        final Figure actualFigure = field.getFigure(inputPoint);
+
+        assertNull(actualFigure);
+    }
+
+    @Test
+    public void testGetFigureWhenXIsLessThenZero() {
+        final Field field = new Field();
+        final Point inputPoint = new Point(-1, 0);
+
+        try {
+            field.getFigure(inputPoint);
+            fail(); //Will fail test if become to this point
+        }catch (InvalidPointException e) {}
+    }
+
+    @Test
+    public void testGetFigureWhenXIsMoreThenSize() {
+        final Field field = new Field();
+        final Point inputPoint = new Point(3, 0);
+
+        try {
+            field.getFigure(inputPoint);
+            fail(); //Will fail test if become to this point
+        }catch (InvalidPointException e) {}
+    }
+
+    @Test
+    public void testGetFigureWhenYIsLessThenZero() {
+        final Field field = new Field();
+        final Point inputPoint = new Point(0, -1);
+
+        try {
+            field.getFigure(inputPoint);
+            fail(); //Will fail test if become to this point
+        }catch (InvalidPointException e) {}
+    }
+
+    @Test
+    public void testGetFigureWhenYIsMoreThenSize() {
+        final Field field = new Field();
+        final Point inputPoint = new Point(0, 3);
+
+        try {
+            field.getFigure(inputPoint);
+            fail(); //Will fail test if become to this point
+        }catch (InvalidPointException e) {}
     }
 }
